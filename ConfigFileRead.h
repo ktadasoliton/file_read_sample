@@ -1,7 +1,6 @@
-
-
+//ktada write 18/01/10
 class ConfigFileRead
 {
-    private:
+    public:
     char *GetConfigString(char *section, char *key, char *inifile);
 };
