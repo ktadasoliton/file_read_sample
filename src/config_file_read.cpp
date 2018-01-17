@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include <string>
 
-char* GetConfigString(char *section, char *key, char *inifile ) {
+char* GetConfigString(const char *section, const char *key, const char *inifile ) {
   char took_section[512], section_value[512], specified_section[512];
   char buffer[512];
   bool section_found = false;

@@ -3,7 +3,7 @@
 #define CONFREAD_CONFIGFILEREAD_H_
 class ConfigFileRead {
  public:
-  char *GetConfigString(char *section, char *key, char *inifile);
+  char *GetConfigString(const char *section, const char *key, const char *inifile);
 };
 
 #endif  // CONFREAD_CONFIGFILEREAD_H_  //NOLINT
