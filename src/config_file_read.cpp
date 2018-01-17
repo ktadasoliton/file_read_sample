@@ -1,16 +1,17 @@
-#include "ConfigFileRead.h"
+  // Copyright 2018 Kota Tada
+
+#include "include/config_file_read.h"
 #include <unistd.h>
 #include <string>
 
 char* GetConfigString(char *section, char *key, char *inifile ) {
-
   char took_section[512], section_value[512], specified_section[512];
   char buffer[512];
   bool section_found = false;
 
   FILE *fp;
-  if ((fp = fopen(inifile,"r")) == NULL) {
-    return (char*)"\0";
+  if ((fp = fopen(inifile, "r")) == NULL) {
+    return '\0';
   }
 
   snprintf(specified_section, sizeof(specified_section), "[%s]", section);
@@ -41,17 +42,16 @@ char* GetConfigString(char *section, char *key, char *inifile ) {
     }
   }
   fclose(fp);
-  return (char*)"\0";
+  return '\0';
 }
 
 int main(int argc, char **argv) {
-
   int opt;
   while ((opt = getopt(argc, argv, "f")) != -1) {
     switch (opt) {
       case 'f':
-            GetConfigString((char*)"LogFilePath", (char*)"log_file_path", argv[2]);
-            GetConfigString((char*)"LogFileName", (char*)"log_file_name", argv[2]);
+            GetConfigString("LogFilePath", "log_file_path", argv[2]);
+            GetConfigString("LogFileName", "log_file_name", argv[2]);
       break;
     }
   }
