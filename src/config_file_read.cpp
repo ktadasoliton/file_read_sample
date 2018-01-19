@@ -3,46 +3,43 @@
 #include "include/config_file_read.h"
 #include <unistd.h>
 #include <string>
+#include <fstream>
+#include <sstream>
+#include <vector>
 
-char* GetConfigString(const char *section, const char *key, const char *inifile ) {
-  char took_section[512], section_value[512], specified_section[512];
-  char buffer[512];
+std::string GetConfigString(const std::string key, const std::string inifile) {
+  std::string buffer, item;
+  std::vector<std::string> v;
   bool section_found = false;
 
-  FILE *fp;
-  if ((fp = fopen(inifile, "r")) == NULL) {
-    return '\0';
+  std::ifstream ifs(inifile);
+  if (ifs.fail()) {
+    return "";
   }
 
-  snprintf(specified_section, sizeof(specified_section), "[%s]", section);
-  char *p = NULL;
-  while (fgets(buffer, 512, fp) != NULL) {
+  while (std::getline(ifs, buffer)) {
     if (buffer[0] == '#') {
       continue;
     }
 
-    if ((p = strchr(buffer, '=')) != NULL) {
-      *p = (' ');
-    }
+    std::istringstream iss(buffer);
+    std::string::size_type index = 0;
+    index = buffer.find("=");
 
-    sscanf(buffer, "%s %s", took_section, section_value);
-    if (strcmp(took_section, specified_section) == 0) {
-      section_found = true;
-    } else {
-      if (*took_section == '[') {
-        section_found = false;
+    if (index != std::string::npos) {
+      while (std::getline(iss, item, '=')) {
+        v.push_back(item);
       }
-    }
-
-    if (section_found == true) {
-      if (strcmp(took_section, key) == 0) {
-        fclose(fp);
-        return(strdup(section_value));
+      for (int i=0; i < v.size(); i++) {
+        if (v[i] == key) {
+          return v[i+1];
+        }
       }
     }
   }
-  fclose(fp);
-  return '\0';
+
+  ifs.close();
+  return "";
 }
 
 int main(int argc, char **argv) {
@@ -50,8 +47,10 @@ int main(int argc, char **argv) {
   while ((opt = getopt(argc, argv, "f")) != -1) {
     switch (opt) {
       case 'f':
-            GetConfigString("LogFilePath", "log_file_path", argv[2]);
-            GetConfigString("LogFileName", "log_file_name", argv[2]);
+            GetConfigString("log_file_path", argv[2]);
+            printf("path = %s\n", val.c_str());
+            GetConfigString("log_file_name", argv[2]);
+            printf("name = %s\n", val.c_str());
       break;
     }
   }
