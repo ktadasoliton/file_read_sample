@@ -44,12 +44,13 @@ std::string GetConfigString(const std::string key, const std::string inifile) {
 
 int main(int argc, char **argv) {
   int opt;
+  std::string val;
   while ((opt = getopt(argc, argv, "f")) != -1) {
     switch (opt) {
       case 'f':
-            GetConfigString("log_file_path", argv[2]);
+            val = GetConfigString("log_file_path", argv[2]);
             printf("path = %s\n", val.c_str());
-            GetConfigString("log_file_name", argv[2]);
+            val = GetConfigString("log_file_name", argv[2]);
             printf("name = %s\n", val.c_str());
       break;
     }
