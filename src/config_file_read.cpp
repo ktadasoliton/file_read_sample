@@ -8,8 +8,8 @@
 #include <vector>
 
 std::string GetConfigString(const std::string key, const std::string inifile) {
-  std::string buffer, item;
-  std::vector<std::string> v;
+  std::string line_buffer, key_line;
+  std::vector<std::string> line_value;
   bool section_found = false;
 
   std::ifstream ifs(inifile);
@@ -17,22 +17,22 @@ std::string GetConfigString(const std::string key, const std::string inifile) {
     return "";
   }
 
-  while (std::getline(ifs, buffer)) {
+  while (std::getline(ifs, line_buffer)) {
     if (buffer[0] == '#') {
       continue;
     }
 
-    std::istringstream iss(buffer);
+    std::istringstream iss(line_buffer);
     std::string::size_type index = 0;
-    index = buffer.find("=");
+    index = line_buffer.find("=");
 
     if (index != std::string::npos) {
-      while (std::getline(iss, item, '=')) {
-        v.push_back(item);
+      while (std::getline(iss, key_line, '=')) {
+        line_value.push_back(key_line);
       }
-      for (int i=0; i < v.size(); i++) {
-        if (v[i] == key) {
-          return v[i+1];
+      for (int i=0; i < line_value.size(); i++) {
+        if (line_value[i] == key) {
+          return line_value[i+1];
         }
       }
     }
