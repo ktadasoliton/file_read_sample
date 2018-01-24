@@ -1,6 +1,6 @@
   // Copyright 2018 Kota Tada
 
-#include "config_file_read/config_file_read.h"
+#include "cfr/config_file_read.h"
 #include <unistd.h>
 #include <string>
 #include <fstream>
@@ -10,7 +10,6 @@
 std::string GetConfigString(const std::string key, const std::string inifile) {
   std::string line_buffer, key_line;
   std::vector<std::string> line_value;
-  bool section_found = false;
 
   std::ifstream ifs(inifile);
   if (ifs.fail()) {
@@ -18,7 +17,7 @@ std::string GetConfigString(const std::string key, const std::string inifile) {
   }
 
   while (std::getline(ifs, line_buffer)) {
-    if (buffer[0] == '#') {
+    if (line_buffer[0] == '#') {
       continue;
     }
 

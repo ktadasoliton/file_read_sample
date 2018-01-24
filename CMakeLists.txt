@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CONFIG_FILE_READ_LIB_NAME config_file_read)
+set(CONFIG_FILE_READ_LIB_NAME cfr)
 project(${CONFIG_FILE_READ_LIB_NAME})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 add_executable(ConfigFileRead src/config_file_read.cpp)
